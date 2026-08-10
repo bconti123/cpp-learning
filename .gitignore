@@ -41,8 +41,9 @@ obj/
 CMakeCache.txt
 CMakeFiles/
 cmake_install.cmake
-Makefile
 _deps/
+# NOTE: deliberately NOT ignoring "Makefile" -- we hand-write ours and want them
+# tracked. If you ever add CMake, ignore its generated makefiles by path instead.
 
 # IDE / editor
 .vscode/
