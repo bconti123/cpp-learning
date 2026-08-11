@@ -20,8 +20,13 @@
 // Return a reversed COPY. The parameter is a const reference: `const&` avoids
 // copying the input, and `const` promises you won't modify the caller's data.
 std::string reversed(const std::string& input) {
-    (void)input;
-    return "";  // TODO
+    const std::size_t len = input.length();
+    std::string output; // allocate an empty string to hold the reversed copy
+    output.reserve(len); // reserve space to avoid multiple allocations
+    for (std::size_t i = 0; i < len; ++i) {
+        output += input[len - i - 1];
+    }
+    return output;
 }
 
 // ---------------------------------------------------------------------------
@@ -35,18 +40,37 @@ std::string reversed(const std::string& input) {
 // you are given the length, so use it and nothing else.
 // ---------------------------------------------------------------------------
 void reverse_in_place(char* buffer, std::size_t len) {
-    (void)buffer;
-    (void)len;
-    // TODO
+    if (len == 0) {
+        return; // nothing to do for an empty string
+    }
+    std::size_t start = 0;
+    std::size_t end = len - 1;
+    while (start < end) {
+        char temp = buffer[start];
+        buffer[start] = buffer[end];
+        buffer[end] = temp;
+        ++start;
+        --end;
+    }
 }
 
 // Return true if `text` reads the same forwards and backwards.
 // Do NOT allocate a reversed copy -- compare from both ends inwards.
 // An empty string and a 1-character string are both palindromes.
 bool is_palindrome(const char* text, std::size_t len) {
-    (void)text;
-    (void)len;
-    return false;  // TODO
+    if (len == 0) {
+        return true; // empty string is a palindrome
+    }
+    std::size_t start = 0;
+    std::size_t end = len - 1;
+    while (start < end) {
+        if (text[start] != text[end]) {
+            return false;
+        }
+        ++start;
+        --end;
+    }
+    return true;
 }
 
 int main() {
