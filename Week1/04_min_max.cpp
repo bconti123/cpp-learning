@@ -26,9 +26,21 @@ struct MinMax {
 // sensible min or max to return. Documenting a precondition is a valid design
 // choice -- the alternative is returning a status, as in exercise 2.)
 MinMax find_min_max(const int* data, std::size_t count) {
-    (void)data;
-    (void)count;
-    return {0, 0};  // TODO
+    if (count == 0) {
+        // Precondition violation: no elements to scan. In a real firmware
+        // function you might assert() here, or return an error code.
+        return {0, 0};
+    }
+    MinMax result = {data[0], data[0]};
+    for (std::size_t i = 1; i < count; ++i) {
+        if (data[i] < result.min) {
+            result.min = data[i];
+        }
+        if (data[i] > result.max) {
+            result.max = data[i];
+        }
+    }
+    return result;
 }
 
 // Same idea, but reports through OUT PARAMETERS instead of a return value.
@@ -36,11 +48,25 @@ MinMax find_min_max(const int* data, std::size_t count) {
 // caller's variables directly. This is the C-style API you'll meet constantly
 // in vendor HAL code.
 void find_min_max_refs(const int* data, std::size_t count, int& min_out, int& max_out) {
-    (void)data;
-    (void)count;
-    (void)min_out;
-    (void)max_out;
-    // TODO
+    if (count == 0) {
+        // Precondition violation: no elements to scan. In a real firmware
+        // function you might assert() here, or return an error code.
+        min_out = 0;
+        max_out = 0;
+        return;
+    }
+
+    min_out = data[0];
+    max_out = data[0];
+
+    for (std::size_t i = 1; i < count; ++i) {
+        if (data[i] < min_out) {
+            min_out = data[i];
+        }
+        if (data[i] > max_out) {
+            max_out = data[i];
+        }
+    }
 }
 
 // Return the average of `count` samples, rounded toward zero.
@@ -51,9 +77,18 @@ void find_min_max_refs(const int* data, std::size_t count, int& min_out, int& ma
 // compiler may do something genuinely surprising). Pick an accumulator type
 // wide enough to hold the total.
 int32_t average(const int16_t* samples, std::size_t count) {
-    (void)samples;
-    (void)count;
-    return 0;  // TODO
+    if (count == 0) {
+        // Precondition violation: no samples to average. In a real firmware
+        // function you might assert() here, or return an error code.
+        return 0;
+    }
+
+    int64_t sum = 0;
+
+    for (std::size_t i = 0; i < count; ++i) {
+        sum += samples[i];
+    }
+    return static_cast<int32_t>(sum / static_cast<int64_t>(count)); // integer division rounds toward zero
 }
 
 int main() {
