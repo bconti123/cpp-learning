@@ -31,8 +31,18 @@ enum class MenuOption {
 //   'q' or 'Q' -> Quit
 //   anything else -> Invalid
 MenuOption parse_option(char key) {
-    (void)key;
-    return MenuOption::Invalid;  // TODO
+    switch (key) {
+        case '1':
+            return MenuOption::ConvertTemperature;
+        case '2':
+            return MenuOption::ReverseText;
+        case '3':
+            return MenuOption::ShowCounter;
+        case 'q':
+        case 'Q':
+            return MenuOption::Quit;
+    }
+    return MenuOption::Invalid;
 }
 
 // The text shown for each option in the menu listing.
@@ -42,15 +52,33 @@ MenuOption parse_option(char key) {
 //   Quit               -> "Quit"
 //   Invalid            -> "Invalid option"
 const char* option_label(MenuOption option) {
-    (void)option;
-    return "";  // TODO
+    switch (option) {
+        case MenuOption::ConvertTemperature:
+            return "Convert temperature";
+        case MenuOption::ReverseText:
+            return "Reverse text";
+        case MenuOption::ShowCounter:
+            return "Show counter";
+        case MenuOption::Quit:
+            return "Quit";
+        case MenuOption::Invalid:
+            return "Invalid option";
+    }
+    return "???";  // should never happen
 }
-
 // Should the main loop keep running after handling `option`?
 // Everything continues except Quit.
 bool should_continue(MenuOption option) {
-    (void)option;
-    return true;  // TODO
+    // First way to write this:
+    // switch (option) {
+    //     case MenuOption::Quit:
+    //         return false;
+    //     default:
+    //         return true;
+    // }
+
+    // Other way to write this is to return the negation of the Quit check:
+    return option != MenuOption::Quit;
 }
 
 // ---------------------------------------------------------------------------
