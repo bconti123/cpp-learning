@@ -107,3 +107,96 @@ embedded.
 Ask me for a **code review** of your solutions before moving on. Passing tests
 means correct; it doesn't yet mean good. Reviewing your own working code is
 where most of the learning actually lands.
+
+---
+
+## Open gaps — what Week 1 did *not* close
+
+Week 1 is green: 61 checks in exercises 1–4, 13 in the menu. That means the code
+is correct on the inputs the tests chose. It does not mean the topics are closed.
+
+Below is the honest list, found during the Week 1 review. Some of these are
+things the tests never checked; some are topics the exercises deliberately
+didn't reach. Read this before starting Week 2, and again whenever a later
+exercise touches one of these.
+
+### Data types
+
+**Integer division truncates toward zero — rounding is never automatic.**
+`01_temperature.cpp:45` is specified as *"round to the nearest tenth (not
+truncate)"*. The implementation truncates. Every test still passes, because no
+test case has a fractional part that rounds differently:
+
+| `celsius_deci` | exact | your result | correctly rounded |
+|---|---|---|---|
+| 1 | 321.80 | 321 | **322** |
+| -1 | 318.20 | 319 | **318** |
+| 254 | 777.20 | 777 | 777 (agrees by luck) |
+
+Note the negatives go wrong in the *opposite* direction: truncation pulls toward
+zero, not toward negative infinity. Rounding a negative integer quotient is a
+separate case you have to write on purpose.
+
+**Integer promotion decides the arithmetic type, not the variable you assign to.**
+In `int32_t f = (c * 9 / 5) + 320;` the `int32_t` describes the *destination*.
+The multiply happens in `int`, because `int16_t` promotes to `int` before any
+arithmetic. On this machine `int` is 32 bits, so it works. On an MCU with a
+16-bit `int`, `c * 9` overflows for `c > 3640`, and signed overflow is undefined
+behavior. You have not yet had to write the cast that makes the intent explicit:
+`static_cast<int32_t>(c) * 9`.
+
+**Untouched entirely:** unsigned types and wraparound, mixed signed/unsigned
+comparison, and `<cstdint>` beyond `int16_t`/`int32_t`. `-Wconversion` never
+fired this week, so it hasn't taught you anything yet.
+
+### Errors
+
+You have exactly one error mechanism so far:
+
+| Mechanism | Status |
+|---|---|
+| Return a `{value, status}` struct | **Done** — `02_calculator.cpp` |
+| Making the caller *check* the status | Not yet — nothing stops you ignoring `.status` |
+| Sticky error flags you must clear | Not taught — see `05_menu.cpp:143` |
+| Exceptions | Out of scope, permanently, for firmware |
+
+The gap that matters most is the second row. `calculate()` returns a status, but
+a caller can drop it on the floor silently and the compiler says nothing. The
+fix is `[[nodiscard]]`, which is Week 2 material.
+
+The third row is the `std::cin` failbit bug in the menu's I/O layer: once a
+stream sets its error flag, every later read fails until something calls
+`.clear()`. A UART status register with a sticky overrun bit behaves the same
+way. That's Week 4.
+
+One subtlety worth keeping: `02_calculator.cpp:54` compares a float with `==`,
+which this README tells you never to do. It's correct *there* — you're testing
+for an exact zero divisor, and `-0.0 == 0.0` is true, so both zeroes are caught.
+What it does *not* catch is a divisor small enough to overflow the quotient. The
+rule is really "never use `==` to ask whether two computed floats are equal";
+testing against an exact constant is a different question.
+
+### Switch and enums
+
+Solid, with one skipped rep: `02_calculator.cpp:37` asked for a `switch` with a
+`default:`, and it's written as an `if`/`else if` chain instead. It's correct,
+but it left `line 62` unreachable, and it means exercise 2 didn't actually drill
+the construct it was there to drill.
+
+The enum rule itself did land — no `default:` in `status_name()` or
+`option_label()`, so `-Wswitch` audits both. Verified by adding a new enumerator
+and watching the build fail.
+
+### Loose ends in the code
+
+- Leftover `(void)param;` scaffolding lines in `01_temperature.cpp` and
+  `02_calculator.cpp`. Harmless, but they were there to silence warnings about
+  parameters you hadn't used yet — now that the functions are written, they're
+  dead lines that suggest the work isn't finished.
+- `05_menu.cpp:68` — missing blank line between two functions.
+
+### Not started at all
+
+From the roadmap, so you know what's genuinely ahead rather than missed:
+classes and RAII, `const`-correctness, the memory model, stack vs. static,
+`volatile`, interrupts, and registers.
