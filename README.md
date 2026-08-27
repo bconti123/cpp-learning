@@ -6,6 +6,7 @@ Learning modern C++, aimed at embedded software.
 
 ```
 Week1/          Core C++ syntax — exercises with failing tests to fill in
+Week2/          Types, references, pointers — one lesson at a time
 helloworld.cpp  first program
 ```
 
@@ -30,8 +31,11 @@ zero warnings stays that way and one at 400 never recovers.
 
 ## Roadmap
 
-- [ ] **Week 1 — Core syntax.** Variables, types, functions, `if`/`switch`,
+- [x] **Week 1 — Core syntax.** Variables, types, functions, `if`/`switch`,
       loops, arrays, references, pointers, structs, enums.
-- [ ] Week 2 — Classes, RAII, `const`-correctness.
-- [ ] Week 3 — Memory model, stack vs. static, why firmware avoids the heap.
-- [ ] Week 4 — Embedded-specific: registers, volatile, interrupts, fixed-point.
+- [ ] **Week 2 — Types, references, pointers.** Data types in depth, signed vs.
+      unsigned, fixed-width types, conversion, `&`, `*`, `nullptr`, parameter
+      passing, basic `const`.
+- [ ] Week 3 — Classes, RAII, `const`-correctness.
+- [ ] Week 4 — Memory model, stack vs. static, why firmware avoids the heap.
+- [ ] Week 5 — Embedded-specific: registers, volatile, interrupts, fixed-point.
