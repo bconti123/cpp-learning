@@ -26,19 +26,19 @@
 
 int main() {
     // (a) How many times a button has been pressed since power-on.
-    FILL_IN_THE_TYPE press_count = 3;
+    int press_count = 3;
 
     // (b) Whether the motor is spinning right now.
-    FILL_IN_THE_TYPE motor_spinning = true;
+    bool motor_spinning = true;
 
     // (c) The temperature read from a sensor, in degrees C.
-    FILL_IN_THE_TYPE temperature_c = 21.7;
+    float temperature_c = 21.7f;
 
     // (d) The model name printed on the board.
-    FILL_IN_THE_TYPE board_name = "STM32F4";
+    std::string board_name = "STM32F4";
 
     // (e) A single letter the user typed.
-    FILL_IN_THE_TYPE typed_letter = 'K';
+    char typed_letter = 'K';
 
     std::cout << "board:  " << board_name << "\n"
               << "temp:   " << temperature_c << " C\n"
