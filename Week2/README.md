@@ -22,7 +22,7 @@ Lessons unlock one at a time. Each file appears when we get to it.
 |---|---|---|
 | 1 | `01_sizes.cpp` | What a type is: size in bytes + how the bits are read |
 | 2 | `02_types.cpp` | `int`, `double`, `char`, `bool`, `std::string` — what each is *for* |
-| 3 | — | Signed vs. unsigned: the negative half, and wraparound |
+| 3 | `03_signed.cpp` | Signed vs. unsigned: the negative half, and wraparound |
 | 4 | — | Fixed-width types: `int32_t`, `uint8_t`, and why embedded insists |
 | 5 | — | Assignment and type conversion; when the compiler quietly loses data |
 | 6 | — | Addresses: `&x` means "where does x live?" |
