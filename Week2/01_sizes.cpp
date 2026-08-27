@@ -28,10 +28,10 @@
 //
 //   type          your guess
 //   ----          ----------
-//   bool          ?
-//   char          ?
-//   int           ?
-//   double        ?
+//   bool          1 byte
+//   char          1 byte
+//   int           4 bytes
+//   double        8 bytes
 //
 // ---------------------------------------------------------------------------
 
@@ -48,14 +48,17 @@ int main() {
     // Part B: replace each 0 with your guess from the table above.
     // The `u` suffix just means "this number is unsigned", which matches the
     // type sizeof gives back. Write `4u`, not `4`.
-    CHECK_EQ(sizeof(bool), 0u);    // TODO
-    CHECK_EQ(sizeof(char), 0u);    // TODO
-    CHECK_EQ(sizeof(int), 0u);     // TODO
-    CHECK_EQ(sizeof(double), 0u);  // TODO
+    CHECK_EQ(sizeof(bool), 1u);
+    CHECK_EQ(sizeof(char), 1u);
+    CHECK_EQ(sizeof(int), 4u);
+    CHECK_EQ(sizeof(double), 8u);
 
     // Not a TODO -- this one is guaranteed by the standard on every machine
     // that has ever existed. `char` is DEFINED as "one byte". Whatever a byte
     // is on the hardware, char is exactly one of them.
+    //
+    // Its SIGNEDNESS is a separate question, and is NOT guaranteed:
+    // signed here (x86 + g++, -128..127), unsigned on ARM (0..255).
     CHECK_EQ(sizeof(char), 1u);
 
     return check::summary();
