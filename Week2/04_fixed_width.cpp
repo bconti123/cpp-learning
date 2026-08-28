@@ -39,17 +39,17 @@
 //   ---------------------------------------------------------------------
 //   value                       range needed          your type
 //   ---------------------------------------------------------------------
-//   battery percent             0 .. 100              ...............
-//   temperature in C          -40 .. 125              ...............
-//   pressure in Pa              0 .. 65535            ...............
-//   uptime in seconds           0 .. 4000000000       ...............
+//   battery percent             0 .. 100              uint8_t
+//   temperature in C          -40 .. 125              int8_t
+//   pressure in Pa              0 .. 65535            uint16_t
+//   uptime in seconds           0 .. 4000000000       uint32_t
 //   ---------------------------------------------------------------------
 //
 // Two questions per row, in this order:
-//   (1) Does the range go below zero?  -> signed (intN_t) or unsigned (uintN_t)
+//   (1) Does the range go below zero?  -> signed (intN_t) or unsigned (uintN_t). Answer is signed intN_t for the range goes below zero.
 //   (2) How many bits does the biggest value need?
 //       8 bits unsigned reaches 255, 16 reaches 65535, 32 reaches ~4.29 billion.
-//       8 bits signed reaches 127, 16 reaches 32767.
+//       8 bits signed reaches 127, 16 reaches 32767. 32 signed reaches ~2.14 billion.
 
 #include <cstdint>
 #include <iostream>
@@ -83,17 +83,17 @@ int main() {
     // -----------------------------------------------------------------------
 
     // (a) Battery charge as a whole-number percentage, 0 to 100.
-    FILL_IN_THE_TYPE battery_percent = 100;
+    uint8_t battery_percent = 100;
 
     // (b) Ambient temperature in whole degrees C. This board is rated for
     //     industrial use: -40 up to 125.
-    FILL_IN_THE_TYPE temperature_c = -40;
+    int8_t temperature_c = -40;
 
     // (c) Pressure in pascals above ambient, 0 to 65535.
-    FILL_IN_THE_TYPE pressure_pa = 65535;
+    uint16_t pressure_pa = 65535;
 
     // (d) Seconds since power-on. Runs up to 4000000000 before we stop caring.
-    FILL_IN_THE_TYPE uptime_seconds = 4000000000;
+    uint32_t uptime_seconds = 4000000000;
 
     // Remember from Lesson 3: uint8_t IS unsigned char, so printing one sends
     // a character to the screen. static_cast<int> is only so this is readable.
