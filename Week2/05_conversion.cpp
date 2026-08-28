@@ -34,10 +34,10 @@
 //   ---------------------------------------------------------------------
 //   what happens when you...                          your prediction
 //   ---------------------------------------------------------------------
-//   store 3.9 into an int                             ...............
-//   store 300 into a uint8_t                          ...............
-//   store -1 into a uint16_t                          ...............
-//   compute 7 / 2 and store it in a double            ...............
+//   store 3.9 into an int                             into 3.9 into an int                            
+//   store 300 into a uint8_t                          into 300 into a uint8_t                          
+//   store -1 into a uint16_t                          into -1 into a uint16_t                          
+//   compute 7 / 2 and store it in a double            compute 7 / 2 and store it in a double 3.5
 //   ---------------------------------------------------------------------
 //
 // Hints, not answers: rows 2 and 3 are Lesson 3's odometer again. Row 1 is
@@ -74,7 +74,7 @@ int main() {
     // (1) A fraction into a whole number. The decimal part is DISCARDED.
     double measured = 3.9;
     int truncated = static_cast<int>(measured);
-    CHECK_EQ(truncated, 0);  // TODO: prediction row 1
+    CHECK_EQ(truncated, 3);  // predict: 3
 
     // Try this: delete the two slashes below, run `make run-05_conversion`,
     // read the error, then put them back. That error is -Wconversion earning
@@ -85,13 +85,15 @@ int main() {
     // (2) A value too big for the box. 300 does not fit in 0..255.
     int sensor_reading = 300;
     uint8_t register_field = static_cast<uint8_t>(sensor_reading);
-    CHECK_EQ(static_cast<int>(register_field), 0);  // TODO: prediction row 2
+    CHECK_EQ(static_cast<int>(register_field), 44);  // predict: 300
+    // Actually, 300 does not fit in 0..255. It is 44.
 
     // (3) A negative into an unsigned. There is no negative half to land in,
     // so the bits get re-read as a positive number.
     int error_code = -1;
     uint16_t as_unsigned = static_cast<uint16_t>(error_code);
-    CHECK_EQ(static_cast<int>(as_unsigned), 0);  // TODO: prediction row 3
+    CHECK_EQ(static_cast<int>(as_unsigned), 65535);  // predict: -1
+    // Actually, -1 does not fit in 0..255. It is 65535.
 
     std::cout << "3.9 -> int        = " << truncated << "\n"
               << "300 -> uint8_t    = " << static_cast<int>(register_field) << "\n"
@@ -113,7 +115,8 @@ int main() {
     // part to give you -- it happens BEFORE anything is stored in a double.
     // The widening to double happens afterwards, too late to help.
     double average = total / parts;
-    CHECK_NEAR(average, 0.0, 1e-9);  // TODO: prediction row 4
+    CHECK_NEAR(average, 3, 1e-9);  // predict: 3.5
+    // Actually, 3.5
 
     // The fix: make ONE side a double before dividing. Then it is double
     // division, and the other side gets widened up to match.
