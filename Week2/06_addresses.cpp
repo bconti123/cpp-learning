@@ -25,13 +25,13 @@
 //   Step 3: run it TWICE more and answer these, in your own words:
 //
 //   Q1. Did the address of `speed` change when its value changed from 40 to 99?
-//       your answer:
+//       your answer: No, the address of `speed` did not change when its value changed from 40 to 99. The variable `speed` is stored in a specific location in memory, and changing its value does not affect its memory address.
 //
 //   Q2. Do `speed` and `limit` live at the same address? Why must that be so?
-//       your answer:
+//       your answer: No, `speed` and `limit` live at different addresses. Each variable is stored in its own memory location, so they must have distinct addresses.
 //
 //   Q3. Run the program twice. Are the addresses the same both times?
-//       your answer:
+//       your answer: No. The addresses are not the same both times.
 //
 // Hint for Q3: the answer on your PC is not the answer on a bare
 // microcontroller. Just report what you see; we will talk about why.
@@ -53,6 +53,11 @@ int main() {
 
     // TODO: print one line saying what `limit` holds and where it lives,
     // in the same style as the two lines above.
+    std::cout << "limit holds " << limit << " and lives at " << &limit << "\n";
+
+    limit = 120;
+
+    std::cout << "limit holds " << limit << " and lives at " << &limit << "\n";
 
     // Two different variables are two different boxes, so two different
     // addresses. Comparing addresses with == is legal; this is a real check.
