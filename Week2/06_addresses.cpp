@@ -51,8 +51,6 @@ int main() {
 
     std::cout << "speed holds " << speed << " and lives at " << &speed << "\n";
 
-    // TODO: print one line saying what `limit` holds and where it lives,
-    // in the same style as the two lines above.
     std::cout << "limit holds " << limit << " and lives at " << &limit << "\n";
 
     limit = 120;
